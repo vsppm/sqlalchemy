@@ -5,6 +5,8 @@ import datetime
 
 from app.database import db, CRUDMixin
 
+#
+
 project_user_association_table = db.Table(
     'project_user_association',
     db.Column('id', db.Integer, primary_key=True, autoincrement=True),
@@ -38,7 +40,9 @@ class VSProject(CRUDMixin, db.Model):
                             # 默认userlist=false为一对多关系,userlist=true为多对多关系
                             uselist=True,
                             secondary=project_user_association_table,
-                            backref="projects")
+                            backref="projects",
+                            # 关联的user表记录也会删除
+                            cascade="save-update, merge, delete")
 
     def __init__(self, **kwargs):
         super(VSProject, self).__init__(**kwargs)
