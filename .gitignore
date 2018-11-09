@@ -1,9 +1,3 @@
-/python
 /.idea
 *.pyc
-*.dat
 /venv
-/tmp
-/upload/**/*.jpg
-/upload/**/*.png
-/upload/**/*.icon
