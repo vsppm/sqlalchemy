@@ -20,7 +20,6 @@ class VSProject(CRUDMixin, db.Model):
     """
     __tablename__ = 'tbl_sqlalchemy_project'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     # 项目访问权限  open: 公开  private: 私有
     access = db.Column(db.String(20), default='open')
     # 创建时间
@@ -54,7 +53,6 @@ class VSUser(CRUDMixin, db.Model):
     """
     __tablename__ = 'tbl_sqlalchemy_user'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     account = db.Column(db.String(56))
     created_ts = db.Column(
         db.DateTime(timezone=True),
@@ -68,3 +66,22 @@ class VSUser(CRUDMixin, db.Model):
 
     def __init__(self, **kwargs):
         super(VSUser, self).__init__(**kwargs)
+
+
+class VSBlog(CRUDMixin, db.Model):
+    __tablename__ = 'tbl_sqlalchemy_blog'
+    title = db.Column(db.String(128))
+
+    commits = db.relationship("VScommit", backref="blog")
+
+    def __init__(self, **kwargs):
+        super(VSBlog, self).__init__(**kwargs)
+
+
+class VSCommit(CRUDMixin, db.Model):
+    __tablename__ = 'tbl_sqlalchemy_commit'
+    content = db.Column(db.String(256))
+    blog_id = db.Column(db.Integer, db.ForeignKey('tbl_sqlalchemy_blog.id'))
+
+    def __init__(self, **kwargs):
+        super(VSCommit, self).__init__(**kwargs)

@@ -10,3 +10,5 @@ vs_association = Blueprint(
     template_folder='../../templates')
 
 from .views import index
+from .views import secondary
+from .views import backref
