@@ -22,6 +22,7 @@ def blog_create():
 def blog_info(id):
     blog = VSBlog.query.filter_by(id=id).first_or_404()
     if blog:
+        # 通过backref建立的表关系,可以获取到commits集合
         for cc in blog.commits:
             print(cc.to_dict())
 
@@ -64,10 +65,11 @@ def blog_commit_create(id):
 
     blog = VSBlog.query.filter_by(id=id).first_or_404()
     if blog:
-        blog.commits.append(VSCommit(**args_data))
-        blog.save()
+        commit = VSCommit.create(**args_data)
+    else:
+        return "blog is not existed now!"
 
-    return jsonify(blog.to_dict())
+    return jsonify(commit.to_dict())
 
 
 

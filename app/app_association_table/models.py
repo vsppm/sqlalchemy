@@ -72,8 +72,6 @@ class VSBlog(CRUDMixin, db.Model):
     __tablename__ = 'tbl_sqlalchemy_blog'
     title = db.Column(db.String(128))
 
-    commits = db.relationship("VScommit", backref="blog")
-
     def __init__(self, **kwargs):
         super(VSBlog, self).__init__(**kwargs)
 
@@ -82,6 +80,7 @@ class VSCommit(CRUDMixin, db.Model):
     __tablename__ = 'tbl_sqlalchemy_commit'
     content = db.Column(db.String(256))
     blog_id = db.Column(db.Integer, db.ForeignKey('tbl_sqlalchemy_blog.id'))
+    blog = db.relationship("VSBlog", backref="commits")
 
     def __init__(self, **kwargs):
         super(VSCommit, self).__init__(**kwargs)
