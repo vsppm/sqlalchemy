@@ -53,7 +53,7 @@ class VSUser(CRUDMixin, db.Model):
     """
     __tablename__ = 'tbl_sqlalchemy_user'
 
-    account = db.Column(db.String(56))
+    account = db.Column(db.String(56), nullable=False, unique=True)
     created_ts = db.Column(
         db.DateTime(timezone=True),
         default=datetime.datetime.utcnow

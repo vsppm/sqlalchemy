@@ -4,6 +4,7 @@
 from flask import request, json, jsonify
 from app.app_association_table import vs_association
 from app.app_association_table.models import VSBlog, VSCommit
+from sqlalchemy.orm import subqueryload
 
 
 @vs_association.route('/blog', methods=['POST'])
@@ -72,4 +73,12 @@ def blog_commit_create(id):
     return jsonify(commit.to_dict())
 
 
+@vs_association.route('/blog/<string:b_id>/commit/<string:c_id>', methods=['GET'])
+def blog_commit_info(b_id, c_id):
+    blog = VSBlog.query.filter_by(id=b_id).first_or_404()
+    if blog:
+        commit = VSCommit.query.filter_by(id=c_id).first_or_404()
+    else:
+        return "commit is not existed now!"
 
+    return jsonify(commit.to_dict())
